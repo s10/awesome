@@ -257,20 +257,15 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 
     awful.key({ }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/Картинки/screenshots/ 2>/dev/null'") end),
-    
+
     -- Applications
     awful.key({ modkey            }, "p", function () awful.util.spawn("xsetroot -cursor_name left_ptr") end),
 
     -- Prompt
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
 
-    awful.key({ modkey }, "x",
-              function ()
-                  awful.prompt.run({ prompt = "Run Lua code: " },
-                  mypromptbox[mouse.screen].widget,
-                  awful.util.eval, nil,
-                  awful.util.getdir("cache") .. "/history_eval")
-              end)
+    -- Launch Nautilus
+    awful.key({ modkey}, "x", function () awful.util.spawn("nautilus .") end)
 )
 
 clientkeys = awful.util.table.join(
