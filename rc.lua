@@ -93,6 +93,7 @@ tags = {
 for s = 1, screen.count() do
     tags[s] = awful.tag(tags.names, s, tags.layout)
 end
+awful.tag.setmwfact(0.25, tags[1][2])
 -- }}}
 
 -- {{{ Menu
@@ -368,17 +369,18 @@ awful.rules.rules = {
                      buttons = clientbuttons } },
 
     -- Rules for some applications
-    { rule = { class = "MPlayer"        }, properties = { tag = tags[1][3] }, { floating = true } },
-    { rule = { class = "Smplayer"       }, properties = { tag = tags[1][3] }, { floating = true } },
+    { rule = { class = "MPlayer"        }, properties = { tag = tags[1][3], floating = true } },
+    { rule = { class = "Smplayer"       }, properties = { tag = tags[1][3], floating = true } },
     { rule = { class = "pinentry"       }, properties = { floating = true } },
     { rule = { class = "gimp"           }, properties = { floating = true } },
     { rule = { class = "Guake"          }, properties = { floating = true } },
     { rule = { class = "Dialog"         }, properties = { floating = true } },
     { rule = { class = "Download"       }, properties = { floating = true } },
     { rule = { class = "Google-chrome"  }, properties = { tag = tags[1][1] } },
-    { rule = { class = "Pidgin"         }, properties = { tag = tags[1][2] }, { floating = true } },
-    { rule = { class = "Skype"          }, properties = { tag = tags[1][2] }, { floating = true } },
-    { rule = { class = "Wine"           }, properties = { tag = tags[1][7] }, { floating = true } }, -- TeamViewer
+    { rule = { class = "Pidgin"         }, properties = { tag = tags[1][2] } },
+    { rule = { class = "Pidgin", name = "Передача файлов" or "Открыть файл..." or "Выбрать ресурс" }, properties = { tag = tags[1][2], floating = true } },
+    { rule = { class = "Skype"          }, properties = { tag = tags[1][2], floating = true } },
+    { rule = { class = "Wine"           }, properties = { tag = tags[1][7], floating = true } }, -- TeamViewer
     { rule = { class = "VirtualBox"     }, properties = { tag = tags[1][7] } },
     { rule = { class = "Evolution"      }, properties = { tag = tags[1][5] } },
     { rule = { class = "banshee-1"      }, properties = { tag = tags[1][3] } },
