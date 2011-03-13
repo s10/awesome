@@ -79,7 +79,7 @@ layouts =
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-    names  = { "web", "im", "media", "p2p", "mail", "dev", "vm" },
+    names  = { "web", "im", "media", "p2p", "text", "dev", "vm" },
     layout = {
         awful.layout.suit.max,
         awful.layout.suit.tile.left,
