@@ -370,7 +370,7 @@ awful.rules.rules = {
 
     -- Rules for some applications
     { rule = { class = "MPlayer"        }, properties = { tag = tags[1][3], floating = true } },
-    { rule = { class = "Smplayer"       }, properties = { tag = tags[1][3], floating = true } },
+    { rule = { class = "Smplayer"       }, properties = { tag = tags[1][3] } },
     { rule = { class = "pinentry"       }, properties = { floating = true } },
     { rule = { class = "gimp"           }, properties = { floating = true } },
     { rule = { class = "Guake"          }, properties = { floating = true } },
