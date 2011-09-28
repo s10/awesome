@@ -122,6 +122,24 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 
 -- }}}
 
+-- Keyboard layout widget
+kbdwidget = widget({type = "textbox", name = "kbdwidget"})
+kbdwidget.border_width = 1
+kbdwidget.border_color = beautiful.fg_normal
+kbdwidget.width = 30
+kbdwidget.align = "center"
+kbdwidget.text = " en "
+
+dbus.request_name("session", "ru.gentoo.kbdd")
+dbus.add_match("session", "interface='ru.gentoo.kbdd',member='layoutChanged'")
+dbus.add_signal("ru.gentoo.kbdd", function(...)
+    local data = {...}
+    local layout = data[2]
+    lts = {[0] = "en", [1] = "ru"}
+    kbdwidget.text = " "..lts[layout].." "
+    end
+)
+
 -- {{{ Wibox
 -- Create a textclock widget
 mytextclock = awful.widget.textclock({ align = "right" })
@@ -194,6 +212,7 @@ for s = 1, screen.count() do
         {
             mylauncher,
             mytaglist[s],
+            kbdwidget,
             mypromptbox[s],
             layout = awful.widget.layout.horizontal.leftright
         },
@@ -388,7 +407,6 @@ awful.rules.rules = {
     { rule = { class = "Deluge-gtk"     }, properties = { tag = tags[1][6] } }
 }
 -- }}}
-
 -- {{{ Signals
 -- Signal function to execute when a new client appears.
 client.add_signal("manage", function (c, startup)
