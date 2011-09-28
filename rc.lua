@@ -262,14 +262,8 @@ globalkeys = awful.util.table.join(
 
     awful.key({ }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/Картинки/screenshots/ 2>/dev/null'") end),
 
-    -- Applications
-    awful.key({ modkey            }, "p", function () awful.util.spawn("xsetroot -cursor_name left_ptr") end),
-
-    -- Prompt
-    awful.key({ modkey            }, "r",     function () mypromptbox[mouse.screen]:run() end),
-
-    -- Dropdown terminal
-    awful.key({                   }, "F1",    function () scratch.drop("xterm","bottom","center",1,0.35) end),
+    awful.key({ modkey            }, "r",     function () mypromptbox[mouse.screen]:run() end),                -- prompt
+    awful.key({                   }, "F1",    function () scratch.drop("xterm","bottom","center",1,0.35) end), -- dropdown terminal
 
     -- Launch Nautilus
     awful.key({ modkey}, "x", function () awful.util.spawn("nautilus .") end)
@@ -375,23 +369,23 @@ awful.rules.rules = {
                      buttons = clientbuttons } },
 
     -- Rules for some applications
-    { rule = { class = "MPlayer"        }, properties = { tag = tags[1][4], floating = true } },
-    { rule = { class = "Smplayer"       }, properties = { tag = tags[1][4] } },
+    { rule = { class = "MPlayer"        }, properties = { tag = tags[1][5], floating = true } },
+    { rule = { class = "Smplayer"       }, properties = { tag = tags[1][5] } },
     { rule = { class = "pinentry"       }, properties = { floating = true } },
     { rule = { class = "gimp"           }, properties = { floating = true } },
     { rule = { class = "Guake"          }, properties = { floating = true } },
     { rule = { class = "Dialog"         }, properties = { floating = true } },
     { rule = { class = "Download"       }, properties = { floating = true } },
     { rule = { class = "Google-chrome"  }, properties = { tag = tags[1][1] } },
-    { rule = { class = "Pidgin"         }, properties = { tag = tags[1][3] } },
-    { rule = { class = "Pidgin", name = "Передача файлов" or "Открыть файл..." or "Выбрать ресурс" }, properties = { tag = tags[1][3], floating = true } },
-    { rule = { class = "Skype"          }, properties = { tag = tags[1][4], floating = true	 } },
+    { rule = { class = "Pidgin"         }, properties = { tag = tags[1][4] } },
+    { rule = { class = "Pidgin", name = "Передача файлов" or "Открыть файл..." or "Выбрать ресурс" }, properties = { tag = tags[1][4], floating = true } },
+    { rule = { class = "Skype"          }, properties = { tag = tags[1][4], floating = true } },
     { rule = { class = "Gajim.py"       }, properties = { tag = tags[1][3], floating = false } },
     { rule = { class = "Wine"           }, properties = { tag = tags[1][2], floating = true } }, -- TeamViewer
     { rule = { class = "VirtualBox"     }, properties = { tag = tags[1][8] } },
-    { rule = { class = "banshee-1"      }, properties = { tag = tags[1][4] } },
-    { rule = { class = "Eiskaltdcpp-qt" }, properties = { tag = tags[1][5] } },
-    { rule = { class = "Deluge-gtk"     }, properties = { tag = tags[1][5] } }
+    { rule = { class = "banshee-1"      }, properties = { tag = tags[1][5] } },
+    { rule = { class = "Eiskaltdcpp-qt" }, properties = { tag = tags[1][6] } },
+    { rule = { class = "Deluge-gtk"     }, properties = { tag = tags[1][6] } }
 }
 -- }}}
 
