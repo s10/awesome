@@ -7,6 +7,7 @@ theme = {}
 theme.confdir = awful.util.getdir("config")
 
 theme.font          = "Tahoma 8"
+theme.taglist_font  = "Tahoma 8"
 
 theme.bg_normal     = "#222222"
 theme.bg_focus      = "#535d6c"
