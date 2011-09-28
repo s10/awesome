@@ -86,7 +86,7 @@ tags = {
         awful.layout.suit.max,
         awful.layout.suit.floating,
         awful.layout.suit.floating,
-        awful.layout.suit.tile.left,
+        awful.layout.suit.floating,
         awful.layout.suit.floating,
         awful.layout.suit.max,
         awful.layout.suit.max,
@@ -279,10 +279,10 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 
-    awful.key({ }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/Картинки/screenshots/ 2>/dev/null'") end),
+    awful.key({ }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/Изображения/screenshots/ 2>/dev/null'") end),
 
     awful.key({ modkey            }, "r",     function () mypromptbox[mouse.screen]:run() end),                -- prompt
-    awful.key({                   }, "F1",    function () scratch.drop("xterm","bottom","center",1,0.35) end), -- dropdown terminal
+    awful.key({                   }, "F1",    function () scratch.drop("urxvt","bottom","center",1,0.35) end), -- dropdown terminal
 
     -- Launch Nautilus
     awful.key({ modkey}, "x", function () awful.util.spawn("nautilus .") end)
