@@ -85,7 +85,7 @@ tags = {
     layout = {
         awful.layout.suit.max,
         awful.layout.suit.floating,
-        awful.layout.suit.max,
+        awful.layout.suit.floating,
         awful.layout.suit.tile.left,
         awful.layout.suit.floating,
         awful.layout.suit.max,
@@ -96,7 +96,7 @@ tags = {
 for s = 1, screen.count() do
     tags[s] = awful.tag(tags.names, s, tags.layout)
 end
-awful.tag.setmwfact(0.25, tags[1][2])
+awful.tag.setmwfact(0.25, tags[1][4])
 -- }}}
 
 -- {{{ Menu
@@ -377,7 +377,7 @@ awful.rules.rules = {
     { rule = { class = "Dialog"         }, properties = { floating = true } },
     { rule = { class = "Download"       }, properties = { floating = true } },
     { rule = { class = "Google-chrome"  }, properties = { tag = tags[1][1] } },
-    { rule = { class = "Pidgin"         }, properties = { tag = tags[1][4] } },
+    { rule = { class = "Pidgin"         }, properties = { tag = tags[1][4] }, callback = awful.client.setslave },
     { rule = { class = "Pidgin", name = "Передача файлов" or "Открыть файл..." or "Выбрать ресурс" }, properties = { tag = tags[1][4], floating = true } },
     { rule = { class = "Skype"          }, properties = { tag = tags[1][4], floating = true } },
     { rule = { class = "Gajim.py"       }, properties = { tag = tags[1][3], floating = false } },
