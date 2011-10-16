@@ -81,14 +81,14 @@ layouts =
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-    names  = { "web", "dev", "gajim", "im","media", "p2p", "text", "vm" },
+    names  = { "web", "gajim", "media", "p2p","im", "dev", "text", "vm" },
     layout = {
         awful.layout.suit.max,
         awful.layout.suit.floating,
         awful.layout.suit.floating,
-        awful.layout.suit.floating,
-        awful.layout.suit.floating,
         awful.layout.suit.max,
+        awful.layout.suit.floating,
+        awful.layout.suit.floating,
         awful.layout.suit.max,
         awful.layout.suit.floating
     }
@@ -146,6 +146,79 @@ mytextclock = awful.widget.textclock({ align = "right" })
 
 -- Create a systray
 mysystray = widget({ type = "systray" })
+
+-- Binary clock
+binaryclock = {}
+binaryclock.widget = widget({type = "imagebox"})
+binaryclock.w = 51 -- width
+binaryclock.h = 24 --height (better to be a multiple of 6) 
+--dont forget that awesome resizes our image with clocks to fit wibox's height
+binaryclock.show_sec = false --must we show seconds? 
+binaryclock.color_active = beautiful.fg_focus --active dot color
+binaryclock.color_bg = beautiful.bg_normal --background color
+binaryclock.color_inactive = beautiful.bg_focus --inactive dot color
+binaryclock.dotsize = math.floor(binaryclock.h / 6) --dot size
+binaryclock.step = math.floor(binaryclock.dotsize / 2) --whitespace between dots
+binaryclock.widget.image = image.argb32(binaryclock.w, binaryclock.h, nil) --create image
+if (binaryclock.show_sec) then binaryclock.timeout = 1 else binaryclock.timeout = 20 end --we don't need to update often
+binaryclock.DEC_BIN = function(IN) --thanx to Lostgallifreyan (http://lua-users.org/lists/lua-l/2004-09/msg00054.html)
+    local B,K,OUT,I,D=2,"01","",0
+    while IN>0 do
+        I=I+1
+        IN,D=math.floor(IN/B),math.mod(IN,B)+1
+        OUT=string.sub(K,D,D)..OUT
+    end
+    return OUT
+end
+binaryclock.paintdot = function(val,shift,limit) --paint number as dots with shift from left side
+    local binval = binaryclock.DEC_BIN(val)
+    local l = string.len(binval)
+    local height = 0 --height adjustment, if you need to lift dots up
+    if (l < limit) then
+        for i=1,limit - l do binval = "0" .. binval end
+    end
+    for i=0,limit-1 do
+        if (string.sub(binval,limit-i,limit-i) == "1") then
+            binaryclock.widget.image:draw_rectangle(shift,  binaryclock.h - binaryclock.dotsize - height, binaryclock.dotsize, binaryclock.dotsize, true, binaryclock.color_active)
+        else
+            binaryclock.widget.image:draw_rectangle(shift,  binaryclock.h - binaryclock.dotsize - height, binaryclock.dotsize,binaryclock.dotsize, true, binaryclock.color_inactive)
+        end
+        height = height + binaryclock.dotsize + binaryclock.step
+    end
+end
+binaryclock.drawclock = function () --get time and send digits to paintdot()
+    binaryclock.widget.image:draw_rectangle(0, 0, binaryclock.w, binaryclock.h, true, binaryclock.color_bg) --fill background
+    local t = os.date("*t")
+    local hour = t.hour
+    if (string.len(hour) == 1) then
+        hour = "0" .. t.hour
+    end
+    local min = t.min
+    if (string.len(min) == 1) then
+        min = "0" .. t.min
+    end
+    local sec = t.sec
+    if (string.len(sec) == 1) then
+        sec = "0" .. t.sec
+    end
+    local col_count = 6
+    if (not binaryclock.show_sec) then col_count = 4 end
+    local step = math.floor((binaryclock.w - col_count * binaryclock.dotsize) / 8) --calc horizontal whitespace between cols
+    binaryclock.paintdot(0 + string.sub(hour, 1, 1), step, 2)
+    binaryclock.paintdot(0 + string.sub(hour, 2, 2), binaryclock.dotsize + 2 * step, 4)
+    binaryclock.paintdot(0 + string.sub(min, 1, 1),binaryclock.dotsize * 2 + 4 * step, 3)
+    binaryclock.paintdot(0 + string.sub(min, 2, 2),binaryclock.dotsize * 3 + 5 * step, 4)
+    if (binaryclock.show_sec) then
+        binaryclock.paintdot(0 + string.sub(sec, 1, 1), binaryclock.dotsize * 4 + 7 * step, 3)
+        binaryclock.paintdot(0 + string.sub(sec, 2, 2), binaryclock.dotsize * 5 + 8 * step, 4)
+    end
+    binaryclock.widget.image = binaryclock.widget.image
+end
+binarytimer = timer { timeout = binaryclock.timeout } --register timer
+binarytimer:add_signal("timeout", function()
+    binaryclock.drawclock()
+end)
+binarytimer:start()--start timer
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -213,6 +286,7 @@ for s = 1, screen.count() do
             mylauncher,
             mytaglist[s],
             kbdwidget,
+            binaryclock.widget,
             mypromptbox[s],
             layout = awful.widget.layout.horizontal.leftright
         },
@@ -282,7 +356,7 @@ globalkeys = awful.util.table.join(
     awful.key({ }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/Изображения/screenshots/ 2>/dev/null'") end),
 
     awful.key({ modkey            }, "r",     function () mypromptbox[mouse.screen]:run() end),                -- prompt
-    awful.key({                   }, "F1",    function () scratch.drop("urxvt","bottom","center",1,0.35) end), -- dropdown terminal
+    awful.key({                   }, "F1",    function () scratch.drop("urxvt","top","center",1,0.35) end), -- dropdown terminal
 
     -- Launch Nautilus
     awful.key({ modkey}, "x", function () awful.util.spawn("nautilus .") end)
@@ -388,23 +462,23 @@ awful.rules.rules = {
                      buttons = clientbuttons } },
 
     -- Rules for some applications
-    { rule = { class = "MPlayer"        }, properties = { tag = tags[1][5], floating = true } },
-    { rule = { class = "Smplayer"       }, properties = { tag = tags[1][5] } },
+    { rule = { class = "MPlayer"        }, properties = { tag = tags[1][3], floating = true } },
+    { rule = { class = "Smplayer"       }, properties = { tag = tags[1][3] } },
     { rule = { class = "pinentry"       }, properties = { floating = true } },
     { rule = { class = "gimp"           }, properties = { floating = true } },
     { rule = { class = "Guake"          }, properties = { floating = true } },
     { rule = { class = "Dialog"         }, properties = { floating = true } },
     { rule = { class = "Download"       }, properties = { floating = true } },
     { rule = { class = "Google-chrome"  }, properties = { tag = tags[1][1] } },
-    { rule = { class = "Pidgin"         }, properties = { tag = tags[1][4] }, callback = awful.client.setslave },
-    { rule = { class = "Pidgin", name = "Передача файлов" or "Открыть файл..." or "Выбрать ресурс" }, properties = { tag = tags[1][4], floating = true } },
-    { rule = { class = "Skype"          }, properties = { tag = tags[1][4], floating = true } },
-    { rule = { class = "Gajim.py"       }, properties = { tag = tags[1][3], floating = false } },
-    { rule = { class = "Wine"           }, properties = { tag = tags[1][2], floating = true } }, -- TeamViewer
+    { rule = { class = "Pidgin"         }, properties = { tag = tags[1][5] }, callback = awful.client.setslave },
+    { rule = { class = "Pidgin", name = "Передача файлов" or "Открыть файл..." or "Выбрать ресурс" }, properties = { tag = tags[1][5], floating = true } },
+    { rule = { class = "Skype"          }, properties = { tag = tags[1][5], floating = true } },
+    { rule = { class = "Gajim.py"       }, properties = { tag = tags[1][2], floating = false } },
+    { rule = { class = "Wine"           }, properties = { tag = tags[1][6], floating = true } }, -- TeamViewer
     { rule = { class = "VirtualBox"     }, properties = { tag = tags[1][8] } },
-    { rule = { class = "banshee-1"      }, properties = { tag = tags[1][5] } },
-    { rule = { class = "Eiskaltdcpp-qt" }, properties = { tag = tags[1][6] } },
-    { rule = { class = "Deluge-gtk"     }, properties = { tag = tags[1][6] } }
+    { rule = { class = "banshee-1"      }, properties = { tag = tags[1][3] } },
+    { rule = { class = "Eiskaltdcpp-qt" }, properties = { tag = tags[1][4] } },
+    { rule = { class = "Deluge-gtk"     }, properties = { tag = tags[1][4] } }
 }
 -- }}}
 -- {{{ Signals
@@ -430,7 +504,7 @@ client.add_signal("manage", function (c, startup)
         if not c.size_hints.user_position and not c.size_hints.program_position then
             awful.placement.no_overlap(c)
             awful.placement.no_offscreen(c)
-        end
+       end
     end
 end)
 
