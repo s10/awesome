@@ -151,10 +151,10 @@ mysystray = widget({ type = "systray" })
 binaryclock = {}
 binaryclock.widget = widget({type = "imagebox"})
 binaryclock.w = 51 -- width
-binaryclock.h = 24 --height (better to be a multiple of 6) 
+binaryclock.h = 24 -- height (better to be a multiple of 6) 
 --dont forget that awesome resizes our image with clocks to fit wibox's height
-binaryclock.show_sec = false --must we show seconds? 
-binaryclock.color_active = beautiful.fg_focus --active dot color
+binaryclock.show_sec = true --must we show seconds? 
+binaryclock.color_active = "green" --beautiful.fg_focus --active dot color
 binaryclock.color_bg = beautiful.bg_normal --background color
 binaryclock.color_inactive = beautiful.bg_focus --inactive dot color
 binaryclock.dotsize = math.floor(binaryclock.h / 6) --dot size
@@ -285,14 +285,14 @@ for s = 1, screen.count() do
         {
             mylauncher,
             mytaglist[s],
-            kbdwidget,
-            binaryclock.widget,
             mypromptbox[s],
             layout = awful.widget.layout.horizontal.leftright
         },
         mylayoutbox[s],
-        mytextclock,
-        s == 1 and mysystray or nil,
+        binaryclock.widget,
+        kbdwidget,
+        -- mytextclock,
+        -- s == 1 and mysystray or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
