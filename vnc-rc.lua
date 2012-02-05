@@ -6,8 +6,6 @@ require("awful.rules")
 require("beautiful")
 -- Notification library
 require("naughty")
--- Scratch
-require("scratch")
 
 -- Notification settings
 naughty.config.default_preset.timeout          = 5
@@ -319,7 +317,6 @@ globalkeys = awful.util.table.join(
     awful.key({ }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/Изображения/screenshots/ 2>/dev/null'") end),
 
     awful.key({ modkey            }, "r",     function () mypromptbox[mouse.screen]:run() end),                -- prompt
-    awful.key({                   }, "F1",    function () scratch.drop("urxvt","top","center",1,0.35) end), -- dropdown terminal
 
     -- Launch Nautilus
     awful.key({ modkey}, "x", function () awful.util.spawn("nautilus .") end)
