@@ -5,10 +5,11 @@ require("awful.rules")
 -- Theme handling library
 require("beautiful")
 -- Notification library
-require("naughty")
+-- require("naughty")
 -- Scratch
 require("scratch")
 
+--[[
 -- Notification settings
 naughty.config.default_preset.timeout          = 5
 naughty.config.default_preset.screen           = 1
@@ -36,6 +37,7 @@ naughty.config.default_preset.fg               = '#ffffff'
 naughty.config.default_preset.bg               = '#535d6c'
 naughty.config.presets.normal.border_color     = '#535d6c'
 naughty.config.default_preset.border_width     = 1
+--]]
 
 -- Load menu entries
 -- require("debian.menu")
@@ -154,7 +156,7 @@ function batteryInfo(adapter)
     local battery = math.floor(cur * 100 / cap)
     if sta:match("Charging") then
         dir = "^"
-        battery = "A/C ("..battery..")"
+        battery = "a/c ("..battery..")"
     elseif sta:match("Discharging") then
         dir = "v"
         if tonumber(battery) > 25 and tonumber(battery) < 75 then
@@ -175,7 +177,7 @@ function batteryInfo(adapter)
         end
     else
         dir = " "
-        battery = "A/C"
+        battery = "a/c"
     end
     batterywidget.text = spacer..dir..battery..dir..spacer
     fcur:close()

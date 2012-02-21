@@ -5,8 +5,9 @@ require("awful.rules")
 -- Theme handling library
 require("beautiful")
 -- Notification library
-require("naughty")
+-- require("naughty")
 
+--[[
 -- Notification settings
 naughty.config.default_preset.timeout          = 5
 naughty.config.default_preset.screen           = 1
@@ -34,6 +35,7 @@ naughty.config.default_preset.fg               = '#ffffff'
 naughty.config.default_preset.bg               = '#535d6c'
 naughty.config.presets.normal.border_color     = '#535d6c'
 naughty.config.default_preset.border_width     = 1
+--]]
 
 -- Load menu entries
 -- require("debian.menu")
