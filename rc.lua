@@ -5,11 +5,11 @@ require("awful.rules")
 -- Theme handling library
 require("beautiful")
 -- Notification library
--- require("naughty")
+require("naughty")
 -- Scratch
 require("scratch")
 
---[[
+
 -- Notification settings
 naughty.config.default_preset.timeout          = 5
 naughty.config.default_preset.screen           = 1
@@ -37,7 +37,7 @@ naughty.config.default_preset.fg               = '#ffffff'
 naughty.config.default_preset.bg               = '#535d6c'
 naughty.config.presets.normal.border_color     = '#535d6c'
 naughty.config.default_preset.border_width     = 1
---]]
+
 
 -- Load menu entries
 -- require("debian.menu")
@@ -523,10 +523,10 @@ awful.rules.rules = {
     { rule = { class = "Pidgin"         }, properties = { tag = tags[1][5] }, callback = awful.client.setslave },
     { rule = { class = "Pidgin", name = "Передача файлов" or "Открыть файл..." or "Выбрать ресурс" }, properties = { tag = tags[1][5], floating = true } },
     { rule = { class = "Skype"          }, properties = { tag = tags[1][5], floating = true } },
-    { rule = { class = "Gajim.py"       }, properties = { tag = tags[1][2], floating = false } },
+    { rule = { class = "Gajim"       }, properties = { tag = tags[1][2], floating = false } },
     { rule = { class = "Wine"           }, properties = { tag = tags[1][6], floating = true } }, -- TeamViewer
     { rule = { class = "VirtualBox"     }, properties = { tag = tags[1][8] } },
-    { rule = { class = "banshee-1"      }, properties = { tag = tags[1][3] } },
+    { rule = { class = "Exaile"      }, properties = { tag = tags[1][3] } },
     { rule = { class = "Eiskaltdcpp-qt" }, properties = { tag = tags[1][4] } },
     { rule = { class = "Deluge-gtk"     }, properties = { tag = tags[1][4] } }
 }
