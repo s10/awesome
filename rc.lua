@@ -184,9 +184,10 @@ function batteryInfo(adapter)
     fcap:close()
     fsta:close()
 end
-awful.hooks.timer.register(20, function()
-    batteryInfo("BAT0")
-end)
+
+mytimer = timer( {timeout = 20} )
+mytimer:add_signal("timeout", function() batteryInfo("BAT0") end)
+mytimer:start()
 
 batterywidget = widget({type = "textbox", name = "batterywidget", align = "right" })
 
