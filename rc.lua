@@ -346,11 +346,11 @@ for s = 1, screen.count() do
             mypromptbox[s],
             layout = awful.widget.layout.horizontal.leftright
         },
-        pomodoro.widget,
         mylayoutbox[s],
         binaryclock.widget,
         kbdwidget,
         batterywidget,
+        pomodoro.widget,
         -- mytextclock,
         -- s == 1 and mysystray or nil,
         mytasklist[s],
