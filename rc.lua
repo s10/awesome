@@ -9,6 +9,7 @@ require("naughty")
 -- Scratch
 require("scratch")
 
+require("awful.remote")
 
 -- Notification settings
 naughty.config.default_preset.timeout          = 5
@@ -37,6 +38,13 @@ naughty.config.default_preset.fg               = '#ffffff'
 naughty.config.default_preset.bg               = '#535d6c'
 naughty.config.presets.normal.border_color     = '#535d6c'
 naughty.config.default_preset.border_width     = 1
+
+pomodoro = awful.widget.progressbar()
+pomodoro:set_max_value(100)
+pomodoro:set_background_color('#494B4F')
+pomodoro:set_color('#AECF96')
+pomodoro:set_gradient_colors({ '#AECF96', '#88A175', '#FF5656' })
+pomodoro:set_ticks(true)
 
 
 -- Load menu entries
@@ -338,6 +346,7 @@ for s = 1, screen.count() do
             mypromptbox[s],
             layout = awful.widget.layout.horizontal.leftright
         },
+        pomodoro.widget,
         mylayoutbox[s],
         binaryclock.widget,
         kbdwidget,
