@@ -83,16 +83,14 @@ layouts =
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-    names  = { "web", "gajim", "media", "p2p","im", "dev", "text", "vm" },
+    names  = { "web", "im", "media", "p2p", "dev", "text" },
     layout = {
         awful.layout.suit.max,
         awful.layout.suit.floating,
         awful.layout.suit.floating,
         awful.layout.suit.max,
         awful.layout.suit.floating,
-        awful.layout.suit.floating,
-        awful.layout.suit.max,
-        awful.layout.suit.floating
+        awful.layout.suit.max
     }
 }
 for s = 1, screen.count() do
@@ -521,12 +519,12 @@ awful.rules.rules = {
     { rule = { class = "Dialog"         }, properties = { floating = true } },
     { rule = { class = "Download"       }, properties = { floating = true } },
     { rule = { class = "Google-chrome"  }, properties = { tag = tags[1][1] } },
-    { rule = { class = "Pidgin"         }, properties = { tag = tags[1][5] }, callback = awful.client.setslave },
+    { rule = { class = "Pidgin"         }, properties = { tag = tags[1][1] }, callback = awful.client.setslave },
     { rule = { class = "Pidgin", name = "Передача файлов" or "Открыть файл..." or "Выбрать ресурс" }, properties = { tag = tags[1][5], floating = true } },
-    { rule = { class = "Skype"          }, properties = { tag = tags[1][5], floating = true } },
+    { rule = { class = "Skype"          }, properties = { tag = tags[1][1], floating = true } },
     { rule = { class = "Gajim"       }, properties = { tag = tags[1][2], floating = false } },
-    { rule = { class = "Wine"           }, properties = { tag = tags[1][6], floating = true } }, -- TeamViewer
-    { rule = { class = "VirtualBox"     }, properties = { tag = tags[1][8] } },
+    { rule = { class = "Wine"           }, properties = { tag = tags[1][5], floating = true } }, -- TeamViewer
+    { rule = { class = "VirtualBox"     }, properties = { tag = tags[1][5] } },
     { rule = { class = "Exaile"      }, properties = { tag = tags[1][3] } },
     { rule = { class = "Eiskaltdcpp-qt" }, properties = { tag = tags[1][4] } },
     { rule = { class = "Deluge-gtk"     }, properties = { tag = tags[1][4] } }
