@@ -4,7 +4,10 @@
 
 theme = {}
 
-theme.font          = "sans 8"
+-- theme.confdir = awful.util.getdir("config")
+
+theme.font          = "Tahoma 8"
+theme.taglist_font  = "Tahoma 8"
 
 theme.bg_normal     = "#222222"
 theme.bg_focus      = "#535d6c"
@@ -36,12 +39,14 @@ theme.border_marked = "#91231c"
 theme.taglist_squares_sel   = "/usr/share/awesome/themes/default/taglist/squarefw.png"
 theme.taglist_squares_unsel = "/usr/share/awesome/themes/default/taglist/squarew.png"
 
+-- theme.tasklist_floating_icon = theme.confdir .. "/themes/default/tasklist/floatingw.png"
+
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]
 -- menu_[border_color|border_width]
 theme.menu_submenu_icon = "/usr/share/awesome/themes/default/submenu.png"
-theme.menu_height = 15
-theme.menu_width  = 100
+theme.menu_height = 24
+theme.menu_width  = 150
 
 -- You can add as many variables as
 -- you wish and access them by using
