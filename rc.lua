@@ -178,6 +178,25 @@ battery_timer:connect_signal("timeout", function()
 end)
 battery_timer:start()
 
+-- Keyboard layout widget
+kbdwidget = wibox.widget.textbox()
+kbdwidget.border_width = 1
+kbdwidget.border_color = beautiful.fg_normal
+kbdwidget:fit(30,24)
+kbdwidget:set_valign("middle")
+kbdwidget:set_align("center")
+kbdwidget:set_text(" en ")
+
+dbus.request_name("session", "ru.gentoo.kbdd")
+dbus.add_match("session", "interface='ru.gentoo.kbdd',member='layoutChanged'")
+dbus.connect_signal("ru.gentoo.kbdd", function(...)
+    local data = {...}
+    local layout = data[2]
+    lts = {[0] = "en", [1] = "ru"}
+    kbdwidget:set_text(" "..lts[layout].." ")
+    end
+)
+
 -- Binary clock
 
 local binClock = wibox.widget.base.make_widget()
@@ -324,6 +343,7 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
+    right_layout:add(kbdwidget)
     right_layout:add(battery_widget)
     right_layout:add(binClock)
 --  right_layout:add(kbdwidget)
