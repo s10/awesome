@@ -133,6 +133,7 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 battery_widget = wibox.widget.textbox()
 
 function batteryInfo(adapter)
+    kbdwidget:set_font ("Terminus")
     spacer = " "
     local fcur = io.open("/sys/class/power_supply/"..adapter.."/charge_now")    
     local fcap = io.open("/sys/class/power_supply/"..adapter.."/charge_full")
@@ -344,10 +345,9 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
-    right_layout:add(kbdwidget)
     right_layout:add(battery_widget)
+    right_layout:add(kbdwidget)
     right_layout:add(binClock)
---  right_layout:add(kbdwidget)
 --  right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
 
