@@ -182,9 +182,10 @@ battery_timer:start()
 kbdwidget = wibox.widget.textbox()
 kbdwidget.border_width = 1
 kbdwidget.border_color = beautiful.fg_normal
-kbdwidget:fit(30,24)
+kbdwidget:fit(32,24)
 kbdwidget:set_valign("middle")
 kbdwidget:set_align("center")
+kbdwidget:set_font ("Terminus")
 kbdwidget:set_text(" en ")
 
 dbus.request_name("session", "ru.gentoo.kbdd")
