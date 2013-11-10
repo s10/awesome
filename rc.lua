@@ -107,7 +107,7 @@ awful.tag.setmwfact(0.25, tags[1][4])
 -- Create a laucher widget and a main menu
 myawesomemenu = {
     { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
+    { "edit config", editor_cmd .. " " .. awesome.conffile },
     { "restart", awesome.restart },
     { "quit", awesome.quit }
 }
@@ -127,9 +127,58 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 -- {{{ Wibox
 -- Create a textclock widget
-mytextclock = awful.widget.textclock()
+-- mytextclock = awful.widget.textclock()
 
- -- Binary clock
+-- Create battary widget
+battery_widget = wibox.widget.textbox()
+
+function batteryInfo(adapter)
+    spacer = " "
+    local fcur = io.open("/sys/class/power_supply/"..adapter.."/charge_now")    
+    local fcap = io.open("/sys/class/power_supply/"..adapter.."/charge_full")
+    local fsta = io.open("/sys/class/power_supply/"..adapter.."/status")
+    local cur = fcur:read()
+    local cap = fcap:read()
+    local sta = fsta:read()
+    local battery = math.floor(cur * 100 / cap)
+    if sta:match("Charging") then
+        dir = "^"
+        battery = "A/C ("..battery..")"
+    elseif sta:match("Discharging") then
+        dir = "v"
+        if tonumber(battery) > 25 and tonumber(battery) < 75 then
+            battery = battery
+        elseif tonumber(battery) < 25 then
+            if tonumber(battery) < 10 then
+                naughty.notify({ title      = "Battery Warning"
+                               , text       = "Battery low!"..spacer..battery.."%"..spacer.."left!"
+                               , timeout    = 5
+                               , position   = "top_right"
+                               , fg         = beautiful.fg_focus
+                               , bg         = beautiful.bg_focus
+                               })
+            end
+            battery = battery
+        else
+            battery = battery
+        end
+    else
+        dir = " "
+        battery = "a/c"
+    end
+    battery_widget:set_markup(spacer..dir..battery..dir..spacer)
+    fcur:close()
+    fcap:close()
+    fsta:close()
+end
+
+battery_timer = timer({timeout = 20})
+battery_timer:connect_signal("timeout", function()
+    batteryInfo("BAT0")
+end)
+battery_timer:start()
+
+-- Binary clock
 
 local binClock = wibox.widget.base.make_widget()
 binClock.radius = 1.5
@@ -275,6 +324,7 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
+    right_layout:add(battery_widget)
     right_layout:add(binClock)
 --  right_layout:add(kbdwidget)
 --  right_layout:add(mytextclock)
