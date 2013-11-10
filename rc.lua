@@ -131,9 +131,9 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 -- Create battary widget
 battery_widget = wibox.widget.textbox()
+battery_widget:set_font ("Terminus")
 
 function batteryInfo(adapter)
-    kbdwidget:set_font ("Terminus")
     spacer = " "
     local fcur = io.open("/sys/class/power_supply/"..adapter.."/charge_now")    
     local fcap = io.open("/sys/class/power_supply/"..adapter.."/charge_full")
