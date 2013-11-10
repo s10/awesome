@@ -372,17 +372,13 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey, "Shift"   }, "r",      function (c) c:redraw()                       end),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
-    awful.key({ modkey,           }, 't',
-      function(c)
-        local t = awful.client.property.get(c, 'titlebar') or false
-        awful.client.property.set(c, 'titlebar', not t)
-        if t then
-          awful.titlebar.remove(c)
+    awful.key({ modkey,           }, "t",      function (c) 
+        if (c:titlebar_top():geometry()['height'] > 0) then
+            awful.titlebar(c, {size = 0})
         else
-          awful.titlebar.add(c, { modkey = modkey })
+            awful.titlebar(c)
         end
-      end),
-
+    end),
     awful.key({ modkey,           }, "n",
         function (c)
             -- The client currently has the input focus, so it cannot be
