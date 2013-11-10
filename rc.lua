@@ -91,14 +91,14 @@ for s = 1, screen.count() do
     tags[s] = awful.tag({"web", "im", "media", "p2p", "dev", "text"},
         s,
         {
-			awful.layout.suit.max,
-	        awful.layout.suit.floating,
-	        awful.layout.suit.floating,
-	        awful.layout.suit.max,
-	        awful.layout.suit.floating,
-	        awful.layout.suit.max
+            awful.layout.suit.max,
+            awful.layout.suit.floating,
+            awful.layout.suit.floating,
+            awful.layout.suit.max,
+            awful.layout.suit.floating,
+            awful.layout.suit.max
         }
-	)
+    )
 end
 awful.tag.setmwfact(0.25, tags[1][4])
 -- }}}
@@ -128,75 +128,76 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- {{{ Wibox
 -- Create a textclock widget
 mytextclock = awful.widget.textclock()
+
  -- Binary clock
 
- local binClock = wibox.widget.base.make_widget()
- binClock.radius = 1.5
- binClock.shift = 1.8
- binClock.farShift = 2
- binClock.border = 1
- binClock.lineWidth = 1
- binClock.colorActive = beautiful.bg_focus 
+local binClock = wibox.widget.base.make_widget()
+binClock.radius = 1.5
+binClock.shift = 1.8
+binClock.farShift = 2
+binClock.border = 1
+binClock.lineWidth = 1
+binClock.colorActive = beautiful.bg_focus
  
- binClock.fit = function(binClock, width, height)
- 	local size = math.min(width, height)
- 	return 6 * 2 * binClock.radius + 5 * binClock.shift + 2 * binClock.farShift + 2 * binClock.border + 2 * binClock.border, size
+binClock.fit = function(binClock, width, height)
+    local size = math.min(width, height)
+    return 6 * 2 * binClock.radius + 5 * binClock.shift + 2 * binClock.farShift + 2 * binClock.border + 2 * binClock.border, size
  end
  
- binClock.draw = function(binClock, wibox, cr, width, height)
- 	local curTime = os.date("*t")
+binClock.draw = function(binClock, wibox, cr, width, height)
+    local curTime = os.date("*t")
  
- 	local column = {}
- 	table.insert(column, string.format("%04d", binClock:dec_bin(string.sub(string.format("%02d", curTime.hour), 1, 1))))
- 	table.insert(column, string.format("%04d", binClock:dec_bin(string.sub(string.format("%02d", curTime.hour), 2, 2))))
- 	table.insert(column, string.format("%04d", binClock:dec_bin(string.sub(string.format("%02d", curTime.min), 1, 1))))
- 	table.insert(column, string.format("%04d", binClock:dec_bin(string.sub(string.format("%02d", curTime.min), 2, 2))))
- 	table.insert(column, string.format("%04d", binClock:dec_bin(string.sub(string.format("%02d", curTime.sec), 1, 1))))
- 	table.insert(column, string.format("%04d", binClock:dec_bin(string.sub(string.format("%02d", curTime.sec), 2, 2))))
+    local column = {}
+    table.insert(column, string.format("%04d", binClock:dec_bin(string.sub(string.format("%02d", curTime.hour), 1, 1))))
+    table.insert(column, string.format("%04d", binClock:dec_bin(string.sub(string.format("%02d", curTime.hour), 2, 2))))
+    table.insert(column, string.format("%04d", binClock:dec_bin(string.sub(string.format("%02d", curTime.min), 1, 1))))
+    table.insert(column, string.format("%04d", binClock:dec_bin(string.sub(string.format("%02d", curTime.min), 2, 2))))
+    table.insert(column, string.format("%04d", binClock:dec_bin(string.sub(string.format("%02d", curTime.sec), 1, 1))))
+    table.insert(column, string.format("%04d", binClock:dec_bin(string.sub(string.format("%02d", curTime.sec), 2, 2))))
  
- 	local bigColumn = 0
- 	for i = 0, 5 do
- 		if math.floor(i / 2) > bigColumn then
- 			bigColumn = bigColumn + 1
- 		end
- 		for j = 0, 3 do
- 			if string.sub(column[i + 1], j + 1, j + 1) == "0" then 
- 				active = false 
- 			else 
- 				active = true 
- 			end 
- 			binClock:draw_point(cr, bigColumn, i, j, active)
- 		end
- 	end
- end
+    local bigColumn = 0
+    for i = 0, 5 do
+        if math.floor(i / 2) > bigColumn then
+            bigColumn = bigColumn + 1
+        end
+        for j = 0, 3 do
+            if string.sub(column[i + 1], j + 1, j + 1) == "0" then 
+                active = false 
+            else 
+                active = true 
+            end 
+            binClock:draw_point(cr, bigColumn, i, j, active)
+        end
+    end
+end
  
- binClock.dec_bin = function(binClock, inNum)
- 	inNum = tonumber(inNum)
- 	local base, enum, outNum, rem = 2, "01", "", 0
- 	while inNum > (base - 1) do
- 		inNum, rem = math.floor(inNum / base), math.fmod(inNum, base)
- 		outNum = string.sub(enum, rem + 1, rem + 1) .. outNum
- 	end
- 	outNum = inNum .. outNum
- 	return outNum
- end
+binClock.dec_bin = function(binClock, inNum)
+    inNum = tonumber(inNum)
+    local base, enum, outNum, rem = 2, "01", "", 0
+    while inNum > (base - 1) do
+        inNum, rem = math.floor(inNum / base), math.fmod(inNum, base)
+        outNum = string.sub(enum, rem + 1, rem + 1) .. outNum
+    end
+    outNum = inNum .. outNum
+    return outNum
+end
  
- binClock.draw_point = function(binClock, cr, bigColumn, column, row, active)
- 	cr:arc(binClock.border + column * (2 * binClock.radius + binClock.shift) + bigColumn * binClock.farShift + binClock.radius,
- 		 binClock.border + row * (2 * binClock.radius + binClock.shift) + binClock.radius, 2, 0, 2 * math.pi)
- 	if active then
- 		cr:set_source_rgba(0, 0.5, 0, 1)
- 	else
- 		cr:set_source_rgba(0.5, 0.5, 0.5, 1)
- 	end
- 	cr:fill()
- end
+binClock.draw_point = function(binClock, cr, bigColumn, column, row, active)
+    cr:arc(binClock.border + column * (2 * binClock.radius + binClock.shift) + bigColumn * binClock.farShift + binClock.radius,
+         binClock.border + row * (2 * binClock.radius + binClock.shift) + binClock.radius, 2, 0, 2 * math.pi)
+    if active then
+        cr:set_source_rgba(0, 1, 0, 1)
+    else
+        cr:set_source_rgba(0.4, 0.4, 0.4, 1)
+    end
+    cr:fill()
+end
  
- binClocktimer = timer { timeout = 1 }
- binClocktimer:connect_signal("timeout", function() binClock:emit_signal("widget::updated") end)
- binClocktimer:start()
+binClocktimer = timer { timeout = 1 }
+binClocktimer:connect_signal("timeout", function() binClock:emit_signal("widget::updated") end)
+binClocktimer:start()
 
- --
+--
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -274,7 +275,7 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
-	right_layout:add(binClock)
+    right_layout:add(binClock)
 --  right_layout:add(kbdwidget)
 --  right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
