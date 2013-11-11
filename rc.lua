@@ -14,7 +14,7 @@ local menubar = require("menubar")
 -- local scratch = require("scratch")
 
 -- Load Debian menu entries
-require("debian.menu")
+-- require("debian.menu")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -46,8 +46,8 @@ end
 beautiful.init(awful.util.getdir("config") .. "/themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "x-terminal-emulator"
-editor = os.getenv("EDITOR") or "editor"
+terminal = "urxvt"
+editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
@@ -113,7 +113,7 @@ myawesomemenu = {
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "Debian", debian.menu.Debian_menu.Debian },
+--                                    { "Debian", debian.menu.Debian_menu.Debian },
                                     { "open terminal", terminal }
                                   }
                         })
@@ -345,6 +345,7 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
+    right_layout:add(wibox.widget.systray())
     right_layout:add(battery_widget)
     right_layout:add(kbdwidget)
     right_layout:add(binClock)
