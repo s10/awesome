@@ -6,8 +6,8 @@ theme = {}
 
 theme.confdir = os.getenv("HOME") .. "/.config/awesome/themes/default"
 
-theme.font          = "Tahoma 8"
-theme.taglist_font  = "Tahoma 8"
+theme.font          = "Tahoma 9"
+theme.taglist_font  = "Tahoma 9"
 
 theme.bg_normal     = "#222222"
 theme.bg_focus      = "#535d6c"
@@ -103,4 +103,4 @@ theme.awesome_icon = "/usr/share/awesome/icons/awesome16.png"
 theme.icon_theme = nil
 
 return theme
--- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:encoding=utf-8:textwidth=80
+-- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80
