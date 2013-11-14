@@ -447,6 +447,7 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey, "Shift"   }, "r",      function (c) c:redraw()                       end),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
+    awful.key({ modkey,           }, "F12",    function (c) awful.util.spawn("gnome-screensaver-command -l") end),
     awful.key({ modkey, "Control" }, "i",
         function (c)
            naughty.notify({ text = 
