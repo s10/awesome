@@ -11,7 +11,7 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 -- Scratch
--- local scratch = require("scratch")
+local scratch = require("scratch")
 
 -- Load Debian menu entries
 require("debian.menu")
@@ -420,7 +420,7 @@ globalkeys = awful.util.table.join(
     -- Prompt
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
 
---     awful.key({                   }, "F1",    function () scratch.drop("urxvt","top","center",1,0.55) end), -- dropdown terminal
+    awful.key({                   }, "F1",    function () scratch.drop("urxvt","top","center",1,0.55) end),
 
     awful.key({ }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/Изображения/screenshots/ 2>/dev/null'") end),
     -- Launch Nautilus
