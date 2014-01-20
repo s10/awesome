@@ -425,7 +425,7 @@ globalkeys = awful.util.table.join(
 
     awful.key({                   }, "F1",    function () scratch.drop("urxvt","top","center",1,0.55) end),
 
-    awful.key({ }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/Изображения/screenshots/ 2>/dev/null'") end),
+    awful.key({ }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/Images/screenshots/ 2>/dev/null'") end),
     -- Launch Nautilus
     awful.key({ modkey}, "x", function () awful.util.spawn("nautilus .") end),
    -- Menubar
