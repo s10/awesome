@@ -88,7 +88,7 @@ end
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({"work", "im", "editor", "research", "testpool", "local", "dev","waxwing"},
+    tags[s] = awful.tag({"work", "im", "editor", "research", "test", "local", "dev","wax"},
         s,
         {
             awful.layout.suit.max,
